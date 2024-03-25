@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.DeptDao">
+    <resultMap id="selectOneDept" type="domain.Dept">
+        <id property="deptno" column="deptno"></id>
+        <result property="dname" column="dname"></result>
+        <result property="loc" column="loc"></result>
+<!--        <collection property="empList" javaType="list" ofType="domain.Emp" select="selectOneEmp" column="deptno"></collection>-->
+        <collection property="empList" javaType="list" ofType="domain.Emp">
+            <id property="empno" column="empno"></id>
+            <result property="ename" column="ename"></result>
+            <result property="sal" column="sal"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectOneEmp" resultType="domain.Emp">
+        select e.empno,e.ename,e.sal from emp e where e.deptno=#{deptno}
+    </select>
+
+    <select id="selectOne" resultMap="selectOneDept">
+<!--        select d.deptno,d.dname,d.loc from dept d where d.deptno=#{deptno}-->
+        select d.deptno,d.dname,d.loc,e.empno,e.ename,e.sal from dept d inner join emp e on d.deptno=e.deptno where d.deptno=#{deptno}
+
+    </select>
+    <select id="selectAll" resultMap="selectOneDept">
+<!--        select d.deptno,d.dname,d.loc from dept d-->
+        select d.deptno,d.dname,d.loc,e.empno,e.ename,e.sal from dept d left join  emp e on d.deptno=e.deptno
+    </select>
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.PersonDao">
+
+<!--    <resultMap id="selectPerson" type="domain.Person">-->
+<!--        <id property="pid" column="pid"></id>-->
+<!--        <result property="pname" column="pname"></result>-->
+<!--        <association property="cardid" javaType="domain.IDCard" select="selectIDCardForPerson" column="cardid"></association>-->
+<!--    </resultMap>-->
+<!--    <select id="selectIDCardForPerson" resultType="domain.IDCard">-->
+<!--        select * from idcard where cardid=#{cardid}-->
+<!--    </select>-->
+
+    <resultMap id="selectPerson" type="domain.Person">
+        <id property="pid" column="pid"></id>
+        <result property="pname" column="pname"></result>
+        <association property="cardid" javaType="domain.IDCard">
+            <id property="cardid" column="cardid"></id>
+            <result property="address" column="address"></result>
+        </association>
+    </resultMap>
+
+    <select id="selectOne" resultMap="selectPerson">
+<!--        select * from person where pid=#{pid}-->
+        select p.pid,p.pname,i.cardid,i.address from person p inner join idcard i on p.cardid = i.cardid where p.pid=#{pid}
+
+    </select>
+    <select id="selectAll" resultMap="selectPerson">
+<!--        select * from person-->
+        select p.pid,p.pname,i.cardid,i.address from person p inner join idcard i on p.cardid = i.cardid
+
+    </select>
+
+</mapper>

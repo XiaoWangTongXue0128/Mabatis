@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ManyToManyMabatis/ManyToManyMabatis.iml" filepath="$PROJECT_DIR$/ManyToManyMabatis/ManyToManyMabatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Mybatis_Annotation/Mybatis_Annotation.iml" filepath="$PROJECT_DIR$/Mybatis_Annotation/Mybatis_Annotation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OneToManyMybatis/OneToManyMybatis.iml" filepath="$PROJECT_DIR$/OneToManyMybatis/OneToManyMybatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OneToOneTestMybatis/OneToOneTestMybatis.iml" filepath="$PROJECT_DIR$/OneToOneTestMybatis/OneToOneTestMybatis.iml" />
+    </modules>
+  </component>
+</project>

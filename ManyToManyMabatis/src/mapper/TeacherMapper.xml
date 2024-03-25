@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.TeacherDao">
+    <resultMap id="select2" type="domain.Teacher">
+        <id property="tid" column="tid"></id>
+        <result property="tname" column="tname"></result>
+        <result property="tsex" column="tsex"></result>
+        <result property="tage" column="tage"></result>
+        <collection property="student" javaType="list" ofType="domain.Student">
+            <id property="sid" column="sid"></id>
+            <result property="sname" column="sname"></result>
+            <result property="ssex" column="ssex"></result>
+            <result property="sage" column="sage"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectOne" resultMap="select2">
+        select t.tid,t.tname,t.tsex,t.tage,s.sid,s.sname,s.ssex,s.sage from teacher t inner join tea_stu ts on t.tid = ts.tid inner join student s on s.sid = ts.sid where t.tid = #{tid}
+    </select>
+    <select id="selectAll" resultMap="select2">
+        select t.tid,t.tname,t.tsex,t.tage,s.sid,s.sname,s.ssex,s.sage from teacher t inner join tea_stu ts on t.tid = ts.tid inner join student s on s.sid = ts.sid
+    </select>
+
+</mapper>

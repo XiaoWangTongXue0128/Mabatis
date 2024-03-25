@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.StudentDao">
+    <resultMap id="select1" type="domain.Student">
+        <id property="sid" column="sid"></id>
+        <result property="sname" column="sname"></result>
+        <result property="ssex" column="ssex"></result>
+        <result property="sage" column="sage"></result>
+        <collection property="teacher" javaType="list" ofType="domain.Teacher">
+            <id property="tid" column="tid"></id>
+            <result property="tname" column="tname"></result>
+            <result property="tsex" column="tsex"></result>
+            <result property="tage" column="tage"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectOne" resultMap="select1">
+        select s.sid,s.sname,s.ssex,s.sage,t.tid,t.tname,t.tsex,t.tage from student s inner join tea_stu ts on s.sid = ts.sid inner join teacher t on t.tid = ts.tid where s.sid=#{sid}
+    </select>
+    <select id="selectAll" resultMap="select1">
+        select s.sid,s.sname,s.ssex,s.sage,t.tid,t.tname,t.tsex,t.tage from student s inner join tea_stu ts on s.sid = ts.sid inner join teacher t on t.tid = ts.tid
+    </select>
+
+    <select id="selectOneOrMore" resultMap="select1">
+        select s.sid,s.sname,s.ssex,s.sage,t.tid,t.tname,t.tsex,t.tage from student s inner join tea_stu ts on s.sid = ts.sid inner join teacher t on t.tid = ts.tid
+        <trim prefix="where" prefixOverrides="and |or">
+<!--            <if test="ssex != null and ssex != ''">-->
+<!--                and s.ssex like concat('%',#{ssex})-->
+<!--            </if>-->
+<!--            <if test="sage != null and sage != ''">-->
+<!--                and s.sage like #{sage}-->
+<!--            </if>-->
+
+
+<!--            类似switch-->
+            <choose>
+                <when test="ssex != null and ssex != ''">
+                    or s.ssex like concat('%',#{ssex})
+                </when>
+                <when test="sage != null and sage != ''">
+                    and s.sage like #{sage}
+                </when>
+                <otherwise>
+                    and s.sname = '赵一'
+                </otherwise>
+            </choose>
+
+        </trim>
+
+    </select>
+    <update id="update">
+        update student
+        <set>
+            <if test="ssex != null and ssex != ''">
+                ssex = #{ssex},
+            </if>
+            <if test="sname != null and sname != ''">
+                sname = #{sname},
+            </if>
+
+        </set>
+        <where>
+            <if test="sid != null and sid != ''">
+                sid = #{sid}
+            </if>
+        </where>
+
+    </update>
+    <select id="selectList" resultType="domain.Student">
+        select * from student
+        <where>
+            <foreach collection="list" item="sid" index="index" open="sid in (" separator="," close=")" nullable="true">
+                #{sid}
+            </foreach>
+        </where>
+    </select>
+</mapper>
